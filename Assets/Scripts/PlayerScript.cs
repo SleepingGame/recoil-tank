@@ -11,6 +11,7 @@ public class PlayerScript : MonoBehaviour
     public GameObject bulletPrefab;
     public GameObject bulletBigPrefab;
     public GameObject bulletEmmitor;
+    public GameObject Gameovertext, Restartbutton;
     public Rigidbody2D playerRigidbody;
 
     //Push force of recoil
@@ -33,6 +34,8 @@ public class PlayerScript : MonoBehaviour
 
     private void Start()
     {
+        Gameovertext.SetActive(false);
+        Restartbutton.SetActive(false);
         playerRigidbody = GetComponent<Rigidbody2D>();
     }
 
@@ -114,6 +117,16 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
+    private void OnCollisionEnter(Collision2D col)
+    {
+        if (col.gameObject.tag.Equals("Enemy"))
+
+            Gameovertext.SetActive(true);
+            Restartbutton.SetActive(true);
+        gameObject.SetActive(false);
+       
+        
+    }
     public void Respawn()
     {
         StartCoroutine(RespawnTimer());

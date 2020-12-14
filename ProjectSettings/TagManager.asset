@@ -8,6 +8,7 @@ TagManager:
   - Boulder
   - Missle
   - OutOfBounds
+  - ASTROIDS
   layers:
   - Default
   - TransparentFX

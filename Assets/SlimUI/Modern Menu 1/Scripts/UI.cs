@@ -13,4 +13,21 @@ public class UI : MonoBehaviour {
 
     }
 
+
+    public void Quitgame ()
+
+    {
+
+        Application.Quit();
+    }
+
+    public void Restartgame()
+
+
+    {
+
+        SceneManager.LoadScene("Level");
+
+    }
+
 }
