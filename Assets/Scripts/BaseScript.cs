@@ -13,12 +13,13 @@ public class BaseScript : MonoBehaviour
     public GameObject playerPrefab, playerSpawnPos;
     public GameObject Gameovertext, Restartbutton;
     public int playerRespawnTimer;
-    GameObject[] boulder;
-    public bool safe;
+    public int score;
 
 
     void Start()
     {
+        score = 0;
+        Debug.Log(score);
         baseMaterial.color = Color.green;
         GameObject Player;
         Player = Instantiate(playerPrefab, playerSpawnPos.transform.position, Quaternion.identity) as GameObject;
@@ -30,17 +31,8 @@ public class BaseScript : MonoBehaviour
             LiveReduction();
     }
 
-    public void RespawnSafe()
-    {
-        for (int i = 0; i < boulder.Length; i++)
-        {
-            boulder = GameObject.FindGameObjectsWithTag("Boulder");
-            Destroy(boulder[i].gameObject);
-        }
-        GameObject Player;
-        Player = Instantiate(playerPrefab, playerSpawnPos.transform.position, Quaternion.identity) as GameObject;
-    }
-    public void RespawnNSafe()
+
+    public void Respawn()
     {
         GameObject Player;
         Player = Instantiate(playerPrefab, playerSpawnPos.transform.position, Quaternion.identity) as GameObject;
@@ -51,12 +43,14 @@ public class BaseScript : MonoBehaviour
     {
         LiveReduction();
         yield return new WaitForSeconds(playerRespawnTimer);
-        if (safe)
-            RespawnSafe();
-        else
-            RespawnNSafe();
+        Respawn();
     }
 
+    public void ScoreIncrement()
+    {
+        score++;
+        Debug.Log("Score is: " + score);
+    }
 
     public void LiveReduction()
     {
@@ -68,8 +62,8 @@ public class BaseScript : MonoBehaviour
             baseMaterial.color = Color.red;
         if (baseLives == 0)
         {
-            Destroy(this.gameObject);
             Instantiate(baseExplosion, this.transform.position, Quaternion.identity);
+            Destroy(this.gameObject);
             Gameovertext.SetActive(true);
             Restartbutton.SetActive(true);
         }

@@ -754,7 +754,7 @@ MonoBehaviour:
   Gameovertext: {fileID: 2010054424}
   Restartbutton: {fileID: 556222343}
   playerRespawnTimer: 3
-  safe: 0
+  score: 0
 --- !u!61 &1430980326
 BoxCollider2D:
   m_ObjectHideFlags: 0

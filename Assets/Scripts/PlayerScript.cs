@@ -115,9 +115,4 @@ public class PlayerScript : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
-
-    public void GameOver()
-    {
-        Destroy(this);
-    }
 }
