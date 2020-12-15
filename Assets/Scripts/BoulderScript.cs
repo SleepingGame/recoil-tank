@@ -10,7 +10,7 @@ public class BoulderScript : MonoBehaviour
     //Setting the objects and particles to use
     private Rigidbody2D rb;
     private ParticleSystem particles;
-    public GameObject myPrefab;
+    public GameObject explosionPrefab;
 
 
     void Start()
@@ -20,17 +20,11 @@ public class BoulderScript : MonoBehaviour
         rb.velocity = Vector2.left;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "Player" || collision.gameObject.tag == "Missle")
         {
-            Instantiate(myPrefab, this.transform.position, Quaternion.identity);
+            Instantiate(explosionPrefab, this.transform.position, Quaternion.identity);
             Destroy(this.gameObject);
         }
     }

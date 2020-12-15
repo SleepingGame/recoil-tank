@@ -6,13 +6,12 @@ public class PlayerScript : MonoBehaviour
 {
 
     //Prefabs, Game objects and Rigid Body components
-    public GameObject playerPrefab;
-    public GameObject PlayerSpawnPosition;
     public GameObject bulletPrefab;
     public GameObject bulletBigPrefab;
     public GameObject bulletEmmitor;
-    public GameObject Gameovertext, Restartbutton;
+    public GameObject explosionPrefab;
     public Rigidbody2D playerRigidbody;
+    public BaseScript bScript;
 
     //Push force of recoil
     public int bulletPushForce;
@@ -34,9 +33,8 @@ public class PlayerScript : MonoBehaviour
 
     private void Start()
     {
-        Gameovertext.SetActive(false);
-        Restartbutton.SetActive(false);
         playerRigidbody = GetComponent<Rigidbody2D>();
+        bScript = GameObject.FindGameObjectWithTag("Base").GetComponent<BaseScript>();
     }
 
     void Update()
@@ -83,7 +81,7 @@ public class PlayerScript : MonoBehaviour
             bulletBigrb = bulletBig.GetComponent<Rigidbody2D>();
             bulletBigrb.velocity = transform.up * bulletBigPushForce;
             Destroy(bulletBig, 3);
-            //playerRigidbody.velocity = Vector2.down * -strongRecoil;
+            playerRigidbody.velocity = transform.up * -strongRecoil;
         }
         else
         {
@@ -93,7 +91,7 @@ public class PlayerScript : MonoBehaviour
             bulletrb = bullet.GetComponent<Rigidbody2D>();
             bulletrb.velocity = transform.up * bulletPushForce;
             Destroy(bullet, 3);
-            //playerRigidbody.velocity = Vector3.forward * -regularRecoil;
+            playerRigidbody.velocity = transform.up * -regularRecoil;
         }
 
     }
@@ -102,8 +100,9 @@ public class PlayerScript : MonoBehaviour
     {
         if(collision.gameObject.tag == "Boulder")
         {
-            Respawn();
-            Destroy(this);
+            bScript.StartCoroutine(bScript.RespawnTimer());
+            Instantiate(explosionPrefab, this.transform.position, Quaternion.identity);
+            Destroy(this.gameObject);
         }
     }
 
@@ -111,32 +110,10 @@ public class PlayerScript : MonoBehaviour
     {
         if(collision.gameObject.tag == "OutOfBounds")
         {
-            Respawn();
-            Destroy(this);
-
+            bScript.StartCoroutine(bScript.RespawnTimer());
+            Instantiate(explosionPrefab, this.transform.position, Quaternion.identity);
+            Destroy(this.gameObject);
         }
-    }
-
-    private void OnCollisionEnter(Collision2D col)
-    {
-        if (col.gameObject.tag.Equals("Enemy"))
-
-            Gameovertext.SetActive(true);
-            Restartbutton.SetActive(true);
-        gameObject.SetActive(false);
-       
-        
-    }
-    public void Respawn()
-    {
-        StartCoroutine(RespawnTimer());
-    }
-
-    IEnumerator RespawnTimer()
-    {
-        yield return new WaitForSeconds(playerSpawnTime);
-        GameObject Player;
-        Player = Instantiate(playerPrefab, PlayerSpawnPosition.transform.position, PlayerSpawnPosition.transform.rotation) as GameObject;
     }
 
     public void GameOver()

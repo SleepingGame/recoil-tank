@@ -4,11 +4,13 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Enemy
   - Boulder
   - Missle
   - OutOfBounds
   - ASTROIDS
+  - Base
+  - GameOver
+  - Restart
   layers:
   - Default
   - TransparentFX
